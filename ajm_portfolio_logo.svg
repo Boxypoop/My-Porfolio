@@ -1,0 +1,22 @@
+<svg viewBox="0 0 300 360" xmlns="http://www.w3.org/2000/svg">
+  <!-- Transparent background -->
+  <rect width="300" height="360" fill="none"/>
+
+  <!-- Outer circle -->
+  <circle cx="150" cy="150" r="130" fill="none" stroke="#0a0a0a" stroke-width="4"/>
+  <circle cx="150" cy="150" r="118" fill="none" stroke="#0a0a0a" stroke-width="1.5"/>
+
+  <!-- 8-point geometric star mark -->
+  <polygon
+    points="150.00,55.00 166.07,111.20 217.18,82.82 188.80,133.93 245.00,150.00 188.80,166.07 217.18,217.18 166.07,188.80 150.00,245.00 133.93,188.80 82.82,217.18 111.20,166.07 55.00,150.00 111.20,133.93 82.82,82.82 133.93,111.20"
+    fill="#0a0a0a"
+  />
+
+  <!-- Center dot -->
+  <circle cx="150" cy="150" r="6" fill="#ffffff"/>
+  <circle cx="150" cy="150" r="6" fill="none" stroke="#0a0a0a" stroke-width="1.5"/>
+
+  <!-- Wordmark -->
+  <text x="150" y="310" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="700" letter-spacing="6" fill="#0a0a0a">AJM</text>
+  <text x="150" y="332" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="12" font-weight="400" letter-spacing="5" fill="#0a0a0a">PORTFOLIO</text>
+</svg>
