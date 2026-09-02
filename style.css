@@ -118,6 +118,16 @@
   left: 50%;
   transform: translateX(-50%);
 }
+@media (max-width:960px){
+  .outside-logo{
+    left: 16px;
+    top: 20px;
+  }
+  .outside-logo img{
+    width: 40px;
+    height: 40px;
+  }
+}
 
   /* ===== NAV (floating pill, hides on scroll down) ===== */
   .navbar-wrap{
