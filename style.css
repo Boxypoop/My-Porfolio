@@ -87,11 +87,12 @@
   visibility: hidden;
   pointer-events: none;
 }
-.loader-logo{
-  width: 100px;
-  height: 100px;
-  
+.loading-logo {
+  width: clamp(50px, 10vw, 80px);
+  height: auto;
+  animation: pulse 2.2s ease-in-out infinite;
 }
+
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.6; transform: scale(0.9); }
