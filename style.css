@@ -119,15 +119,42 @@
   transform: translateX(-50%);
 }
 @media (max-width:960px){
-  .outside-logo{
-    left: 16px;
-    top: 20px;
+    .hero-grid, .about-grid, .network-panel, .exp-highlight{grid-template-columns:1fr;}
+    .photo-stage{height:360px; margin-top:20px;}
+    .nav-links{display:none;}
+    .hamburger{display:flex;}
+
+    /* hide the Contact pill button on mobile */
+    .nav-cta{display:none;}
+
+    /* make the pill just a wrapper for the hamburger */
+    .navbar-wrap nav.pill{
+      background:none;
+      border:none;
+      box-shadow:none;
+      padding:0;
+    }
+
+    /* reposition pill to sit on the right side only */
+    .pill{
+      position:fixed;
+      top:20px;
+      left:auto;
+      right:20px;
+      transform:none;
+    }
+
+    /* logo stays on the left */
+    .outside-logo{
+      position:fixed;
+      left:16px;
+      top:20px;
+    }
+    .outside-logo img{
+      width:40px;
+      height:40px;
+    }
   }
-  .outside-logo img{
-    width: 40px;
-    height: 40px;
-  }
-}
 
   /* ===== NAV (floating pill, hides on scroll down) ===== */
   .navbar-wrap{
