@@ -7,6 +7,16 @@
   var sections = document.querySelectorAll('section[id]');
   var lastScroll = 0;
 
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loading-screen');
+  if (loader) {
+    setTimeout(() => {
+      loader.classList.add('hidden');
+      setTimeout(() => loader.remove(), 600); // matches your CSS transition time
+    }, 1500); // <-- how long the loader stays fully visible before fading, adjust as needed
+  }
+});
+
   window.addEventListener('scroll', function(){
     var current = window.scrollY;
 
