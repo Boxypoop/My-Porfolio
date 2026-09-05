@@ -95,6 +95,28 @@ certLb.addEventListener('click', function(e){ if(e.target === certLb) certLb.cla
     var progressBar = document.getElementById('skills-progress');
     if(!track) return;
 
+    console.log('Skills carousel found:', track, prevBtn, nextBtn, progressBar);
+
+    var reduceMotion = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Clone the card set once so the track can loop seamlessly
+    var originalCards = Array.prototype.slice.call(track.children);
+    originalCards.forEach(function(card){
+      var clone = card.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      clone.querySelectorAll('a, button, [tabindex]').forEach(function(el){ el.tabIndex = -1; });
+      track.appendChild(clone);
+    });
+
+    var originalWidth = 0;
+    function measure(){
+      // scrollWidth is now 2x the real content, since we just duplicated it
+      originalWidth = track.scrollWidth / 2;
+    }
+    measure();
+    window.addEventListener('resize', measure);
+
     function cardStep(){
       var card = track.querySelector('.carousel-card');
       if(!card) return 220;
@@ -102,26 +124,69 @@ certLb.addEventListener('click', function(e){ if(e.target === certLb) certLb.cla
       var gap = parseFloat(style.gap || style.columnGap || 18);
       return card.getBoundingClientRect().width + gap;
     }
+
     function updateProgress(){
-      var max = track.scrollWidth - track.clientWidth;
-      var pct = max > 0 ? (track.scrollLeft / max) * 100 : 0;
-      var visiblePct = Math.max(15, (track.clientWidth / track.scrollWidth) * 100);
+      var pos = originalWidth > 0 ? track.scrollLeft % originalWidth : 0;
+      var visiblePct = Math.max(15, (track.clientWidth / originalWidth) * 100);
+      var pct = (pos / originalWidth) * 100;
       progressBar.style.width = visiblePct + '%';
       progressBar.style.transform = 'translateX(' + (pct * (100 - visiblePct) / 100) + '%)';
-      progressBar.style.marginLeft = '0';
       progressBar.parentElement.style.position = 'relative';
     }
+
+    // ---- Auto-scroll loop ----
+    var isPaused = false;
+    var resumeTimeout = null;
+    var speed = 0.55; // px per frame — tune to taste
+    var rafId = null;
+
+    function loopReset(){
+      if(track.scrollLeft >= originalWidth) track.scrollLeft -= originalWidth;
+      else if(track.scrollLeft < 0) track.scrollLeft += originalWidth;
+    }
+
+    function tick(){
+      if(!isPaused && !reduceMotion){
+        track.scrollLeft += speed;
+        loopReset();
+        updateProgress();
+      }
+      rafId = requestAnimationFrame(tick);
+    }
+
+    function pauseThenResume(delay){
+      isPaused = true;
+      clearTimeout(resumeTimeout);
+      resumeTimeout = setTimeout(function(){ isPaused = false; }, delay || 2000);
+    }
+
+    track.addEventListener('mouseenter', function(){ isPaused = true; });
+    track.addEventListener('mouseleave', function(){
+      clearTimeout(resumeTimeout);
+      isPaused = false;
+    });
+    // Touch/focus support so keyboard and mobile users can pause too
+    track.addEventListener('touchstart', function(){ isPaused = true; }, {passive:true});
+    track.addEventListener('touchend', function(){ pauseThenResume(1500); }, {passive:true});
+    track.addEventListener('focusin', function(){ isPaused = true; });
+    track.addEventListener('focusout', function(){ pauseThenResume(1000); });
+
     prevBtn.addEventListener('click', function(){
+      pauseThenResume();
       track.scrollBy({left: -cardStep()*2, behavior: reduceMotion ? 'auto' : 'smooth'});
     });
     nextBtn.addEventListener('click', function(){
+      pauseThenResume();
       track.scrollBy({left: cardStep()*2, behavior: reduceMotion ? 'auto' : 'smooth'});
     });
-    track.addEventListener('scroll', updateProgress, {passive:true});
-    window.addEventListener('resize', updateProgress);
-    updateProgress();
-  })();
 
+    track.addEventListener('scroll', updateProgress, {passive:true});
+    updateProgress();
+
+    if(!reduceMotion){
+      rafId = requestAnimationFrame(tick);
+    }
+  })();
   /* ---------- Parallax on hero photo cluster ---------- */
   var stage = document.querySelector('.photo-stage');
   var orbit = document.querySelector('.photo-orbit');

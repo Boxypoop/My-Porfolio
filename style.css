@@ -543,7 +543,7 @@
     display:flex;
     gap:18px;
     overflow-x:auto;
-    scroll-snap-type:x mandatory;
+    scroll-snap-type:x proximity;
     scroll-behavior:smooth;
     padding:4px 4px 20px;
     -ms-overflow-style:none;
