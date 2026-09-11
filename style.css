@@ -645,6 +645,7 @@
     align-items:center;
     justify-content:center;
     border-bottom:1px solid var(--line);
+     position:relative;  
   }
   .proj-art svg{width:48px; height:48px; color:var(--blue);}
   .proj-body{padding:26px;}
@@ -673,6 +674,36 @@
     transition:border-color .2s ease;
   }
   .proj-links a:hover{border-color:var(--cyan);}
+
+  /* ===== Project Status Badge ===== */
+.proj-status {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  z-index: 2;
+  backdrop-filter: blur(4px);
+}
+.proj-status.done {
+  background: rgba(24, 105, 4, 0.637);
+  color: #63f310;
+  border: 1px solid rgba(74, 222, 128, 0.4);
+}
+.proj-status.ongoing {
+  background: rgba(250, 204, 21, 0.15);
+  color: #facc15;
+  border: 1px solid rgba(250, 204, 21, 0.4);
+}
+.proj-status.planned {
+  background: rgba(148, 163, 184, 0.15);
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+}
 
   /* ===== NETWORKING ===== */
   .network-panel{
